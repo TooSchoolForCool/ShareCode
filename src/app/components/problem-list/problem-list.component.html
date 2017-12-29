@@ -1,0 +1,13 @@
+<p>Problem list works!</p>
+<!--<div class="Container">-->
+<!--<div class="list-group">-->
+<!--<a class="list-group-item" *ng-for="let problem of problems">-->
+<!--<span>{{problem.difficulty}}</span>-->
+<!--<strong>{{problem.id}}. {{problem.name}}</strong>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<li *ngFor="let prob of problems">
+  <span class="{{'pull-left label difficulty diff-' + prob.difficulty.toLocaleLowerCase()}}">{{prob.difficulty}}</span>
+  <strong class="title">{{prob.id}}. {{prob.name}}</strong>
+</li>
