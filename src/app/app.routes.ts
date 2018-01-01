@@ -24,4 +24,5 @@ const routes: Routes = [
   }
 ];
 
+// other component will use RouterModule (not Routes)
 export const routing = RouterModule.forRoot(routes);
