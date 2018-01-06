@@ -19,8 +19,9 @@ export class NewProblemComponent implements OnInit {
   }
 
   public addProblem(): void {
-    var f = document.getElementsByTagName('form')[0];
-    if(f.checkValidity()) {
+    var selectEle = document.getElementsByTagName('form')[0];
+
+    if(selectEle.checkValidity()) {
       this._addProblem();
     }
   }
