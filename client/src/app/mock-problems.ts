@@ -16,5 +16,25 @@ Pete and Billy are great fans of even numbers, that's why they want to divide th
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.`,
     difficulty: "Medium"
+  },
+  {
+    id: 3,
+    name: "Shovel Sale",
+    desc: `There are n shovels in Polycarp's shop. The i-th shovel costs i burles, that is, the first shovel costs 1 burle, the second shovel costs 2 burles, the third shovel costs 3 burles, and so on. Polycarps wants to sell shovels in pairs.
+
+Visitors are more likely to buy a pair of shovels if their total cost ends with several 9s. Because of this, Polycarp wants to choose a pair of shovels to sell in such a way that the sum of their costs ends with maximum possible number of nines. For example, if he chooses shovels with costs 12345 and 37454, their total cost is 49799, it ends with two nines.
+
+You are to compute the number of pairs of shovels such that their total cost ends with maximum possible number of nines. Two pairs are considered different if there is a shovel presented in one pair, but not in the other.`,
+    difficulty: "Hard"
+  },
+  {
+    id: 4,
+    name: "Correcting Mistakes",
+    desc: `Analyzing the mistakes people make while typing search queries is a complex and an interesting work. As there is no guaranteed way to determine what the user originally meant by typing some query, we have to use different sorts of heuristics.
+
+Polycarp needed to write a code that could, given two words, check whether they could have been obtained from the same word as a result of typos. Polycarpus suggested that the most common typo is skipping exactly one letter as you type a word.
+
+Implement a program that can, given two distinct words S and T of the same length n determine how many words W of length n + 1 are there with such property that you can transform W into both S, and T by deleting exactly one character. Words S and T consist of lowercase English letters. Word W also should consist of lowercase English letters.`,
+    difficulty: "Super"
   }
 ];
