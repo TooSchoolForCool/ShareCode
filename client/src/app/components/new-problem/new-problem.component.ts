@@ -19,9 +19,18 @@ export class NewProblemComponent implements OnInit {
   }
 
   public addProblem(): void {
-    var selectEle = document.getElementsByTagName('form')[0];
+    var form_elements = document.getElementsByTagName('form');
+    var i = 0;
 
-    if(selectEle.checkValidity()) {
+    while (i < form_elements.length) {
+      if (form_elements.item(i).id === 'new_prob_form') {
+        break;
+      }
+      i++;
+    }
+
+    var select_element = form_elements.item(i);
+    if (select_element.checkValidity()) {
       this._addProblem();
     }
   }
