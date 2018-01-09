@@ -16,7 +16,10 @@ router.get('/problems', function(req, res) {
 router.get('/problems/:id', function(req, res) {
   var id = req.params.id;
   problem_service.getProblem(+id)
-    .then(problem => res.json(problem));
+    .then(problem => res.json(problem))
+    .catch(function (err) {
+      res.status(400).send(err);
+    });
 });
 
 router.post('/problems', json_parser, function(req, res) {

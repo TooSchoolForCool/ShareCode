@@ -7,6 +7,7 @@ var ProblemSchema = mongoose.Schema({
   difficulty: String
 });
 
+// other file will use problemModel for DB operations
 var problemModel = mongoose.model('ProblemModel', ProblemSchema);
 
 module.exports = problemModel;

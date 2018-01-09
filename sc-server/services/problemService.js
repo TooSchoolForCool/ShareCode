@@ -25,10 +25,11 @@ function getProblem (id) {
   return new Promise((resolve, reject) => {
     MongoProblemModel.findOne({id : id}, function (err, problem) {
       if(err) {
-        // cannot find problem
+        // Database error
         reject(err);
       }
       else {
+        // note: if db cannot find target problem, it will return null
         resolve(problem);
       }
     });
