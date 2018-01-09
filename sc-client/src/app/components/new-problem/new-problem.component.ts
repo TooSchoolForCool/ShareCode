@@ -38,7 +38,9 @@ export class NewProblemComponent implements OnInit {
   private _addProblem(): void {
     // Note: here is shallow copy,
     // therefore, we need to reassigned a new Problem object or make a deep copy
-    this.data.addProblem( this.newProblem );
+    this.data.addProblem( this.newProblem )
+      .catch(error => console.log(error.body));
+
     // Reassigned a new DEFAULT_PROBLEM object
     // Note: once you change the content of this.newProblem. Content in the
     // input-label and textarea will change simultaneously.
