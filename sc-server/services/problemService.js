@@ -43,6 +43,36 @@ function getProblems() {
   });
 }
 
+// function getProblem (id) {
+//   return new Promise(function (resolve, reject) {
+//     resolve(problems.find(function (prob) {
+//       return prob.id === id;
+//     }));
+//   });
+// }
+
+function getProblem (id) {
+  return new Promise((resolve, reject) => {
+    resolve(problems.find(problem => problem.id === id));
+  });
+}
+
+var addProblem = function (new_problem) {
+  return new Promise((resolve, reject) => {
+    if (problems.find(problem => problem.name === new_problem.name) != undefined) {
+      reject('Problem already exists');
+    }
+    else {
+      new_problem.id = problems.length + 1;
+      problems.push(new_problem);
+      resolve(new_problem);
+    }
+  });
+};
+
+// export function
 module.exports = {
-  getProblems: getProblems
+  getProblems: getProblems,
+  getProblem: getProblem,
+  addProblem: addProblem
 };
