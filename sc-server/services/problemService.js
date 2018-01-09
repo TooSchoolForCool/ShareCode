@@ -37,9 +37,18 @@ Implement a program that can, given two distinct words S and T of the same lengt
   }
 ];
 
+var MongoProblemModel = require('../models/problemModel');
+
 function getProblems() {
   return new Promise((resolve, reject) => {
-    resolve(problems);
+    MongoProblemModel.find({}, function (err, problems) {
+      if(err) {
+        reject(err);
+      }
+      else {
+        resolve(problems);
+      }
+    });
   });
 }
 
@@ -53,20 +62,36 @@ function getProblems() {
 
 function getProblem (id) {
   return new Promise((resolve, reject) => {
-    resolve(problems.find(problem => problem.id === id));
+    MongoProblemModel.findOne({id : id}, function (err, problem) {
+      if(err) {
+        // cannot find problem
+        reject(err);
+      }
+      else {
+        resolve(problem);
+      }
+    });
   });
 }
 
+// add new problem to remote database
 var addProblem = function (new_problem) {
   return new Promise((resolve, reject) => {
-    if (problems.find(problem => problem.name === new_problem.name) != undefined) {
-      reject('Problem already exists');
-    }
-    else {
-      new_problem.id = problems.length + 1;
-      problems.push(new_problem);
-      resolve(new_problem);
-    }
+    MongoProblemModel.findOne({name : new_problem.name}, function (err, problem) {
+      if(problem) {
+        // duplicate problem name
+        reject('Problem Name already exists.')
+      }
+      else {
+        MongoProblemModel.count({}, function(err, cnt) {
+          new_problem.id = cnt + 1;
+          var mongo_prob = new MongoProblemModel(new_problem);
+          // save to remote database
+          mongo_prob.save();
+          resolve(new_problem);
+        });
+      }
+    });
   });
 };
 
