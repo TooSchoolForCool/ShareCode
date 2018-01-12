@@ -20,7 +20,10 @@
 
     <div class="form-group">
       <label for="difficulty">Problem Name</label>
-      <select class="form-control" id="difficulty" name="difficulty" [(ngModel)]="newProblem.difficulty">
+      <select class="form-control" id="difficulty" name="difficulty" required [(ngModel)]="newProblem.difficulty">
+        <!-- Define default status of selection list -->
+        <!-- the value of default option should be as same as the value of difficulty in DEFAULT_PROBLEM -->
+        <option value="" disabled selected>Select Difficulty</option>
         <!-- [value] is binding with the user's choice -->
         <option *ngFor="let diff of difficulties" [value]="diff">
           {{diff}}
