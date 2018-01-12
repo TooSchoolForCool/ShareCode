@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
-import {current} from 'codelyzer/util/syntaxKind';
+
 
 @Injectable()
 export class AuthService {
@@ -12,15 +12,15 @@ export class AuthService {
     responseType: 'token id_token',
     audience: 'https://sharecode.auth0.com/userinfo',
     redirectUri: 'http://localhost:3000/',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor(public router: Router) {}
 
   public login(): void {
     // store current url to localStorage for redirection after login
-    localStorage.setItem('login_url', this.router.url);
-    this.auth0.authorize();
+    this.saveCurrentLoginUrl()
+      .then(() => this.auth0.authorize());
   }
 
   public handleAuthentication(): void {
@@ -35,14 +35,6 @@ export class AuthService {
         console.log(err);
       }
     });
-  }
-
-  private setSession(authResult): void {
-    // Set the time that the access token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
   }
 
   public logout(): void {
@@ -62,6 +54,23 @@ export class AuthService {
     // access token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  private setSession(authResult): void {
+    // Set the time that the access token will expire at
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('profile', authResult.profile);
+    localStorage.setItem('expires_at', expiresAt);
+  }
+
+  // store current url to localStorage for redirection after login
+  private saveCurrentLoginUrl(): Promise<void> {
+    return new Promise((resolve) => {
+      localStorage.setItem('login_url', this.router.url);
+      resolve();
+    });
   }
 
 }
