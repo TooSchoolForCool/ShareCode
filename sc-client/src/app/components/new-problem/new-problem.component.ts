@@ -46,5 +46,4 @@ export class NewProblemComponent implements OnInit {
     // input-label and textarea will change simultaneously.
     this.newProblem = Object.assign({}, DEFAULT_PROBLEM);
   }
-
 }

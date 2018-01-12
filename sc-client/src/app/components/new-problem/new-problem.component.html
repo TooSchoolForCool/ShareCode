@@ -1,7 +1,13 @@
 <div>
+  <!-- #formRef="ngForm" is for angualr form, MUST have this -->
   <form #formRef="ngForm" id="new_prob_form">
+    <!--'form-group' is a bootstrap class, which will group -->
+    <!-- all items in the div together. They will have similar -->
+    <!-- space between them. -->
     <div class="form-group">
+      <!-- label 'for' attribute is associated with input 'id' attr -->
       <label for="problemName">Problem Name</label>
+      <!-- [(ngModel)] is a two-way binding -->
       <input type="text" class="form-control" id="problemName"
              name="problemName" placeholder="Enter Problem Name" [(ngModel)]="newProblem.name" required/>
     </div>
@@ -15,6 +21,7 @@
     <div class="form-group">
       <label for="difficulty">Problem Name</label>
       <select class="form-control" id="difficulty" name="difficulty" [(ngModel)]="newProblem.difficulty">
+        <!-- [value] is binding with the user's choice -->
         <option *ngFor="let diff of difficulties" [value]="diff">
           {{diff}}
         </option>

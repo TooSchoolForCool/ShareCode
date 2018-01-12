@@ -2,6 +2,7 @@ var MongoProblemModel = require('../models/problemModel');
 
 function getProblems() {
   return new Promise((resolve, reject) => {
+    // in {} we can define the query, if empty, indicates find all data
     MongoProblemModel.find({}, function (err, problems) {
       if(err) {
         reject(err);
@@ -23,7 +24,9 @@ function getProblems() {
 
 function getProblem (id) {
   return new Promise((resolve, reject) => {
-    MongoProblemModel.findOne({id : id}, function (err, problem) {
+    // in javascript, query could be {id : id} because JS will
+    // ignore the single quotes
+    MongoProblemModel.findOne({ 'id' : id }, function (err, problem) {
       if(err) {
         // Database error
         reject(err);
@@ -39,14 +42,15 @@ function getProblem (id) {
 // add new problem to remote database
 var addProblem = function (new_problem) {
   return new Promise((resolve, reject) => {
-    MongoProblemModel.findOne({name : new_problem.name}, function (err, problem) {
+    MongoProblemModel.findOne({ 'name' : new_problem.name }, function (err, problem) {
       if(problem) {
         // duplicate problem name
-        reject('Problem Name already exists.')
+        reject('Problem Name already exists.');
       }
       else {
         MongoProblemModel.count({}, function(err, cnt) {
           new_problem.id = cnt + 1;
+          // create new model which embed this new problem
           var mongo_prob = new MongoProblemModel(new_problem);
           // save to remote database
           mongo_prob.save();
