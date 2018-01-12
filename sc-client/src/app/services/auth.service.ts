@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
+import {current} from 'codelyzer/util/syntaxKind';
 
 @Injectable()
 export class AuthService {
-
   auth0 = new auth0.WebAuth({
     clientID: 'ffo29j7yKM850v1LcXyz9EoF61ozrkFE',
     domain: 'sharecode.auth0.com',
@@ -18,6 +18,8 @@ export class AuthService {
   constructor(public router: Router) {}
 
   public login(): void {
+    // store current url to localStorage for redirection after login
+    localStorage.setItem('login_url', this.router.url);
     this.auth0.authorize();
   }
 
@@ -26,9 +28,10 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/home']);
+        // read the login url, and jump back to the same page after login
+        this.router.navigate([localStorage.getItem('login_url')]);
       } else if (err) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/problems']);
         console.log(err);
       }
     });
@@ -47,6 +50,9 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('profile');
+    localStorage.removeItem('login_url');
+
     // Go back to the home route
     this.router.navigate(['/']);
   }
