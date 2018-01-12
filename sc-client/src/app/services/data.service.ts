@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class DataService {
-
+  // problemSource could be an observable object
   private problemSource = new BehaviorSubject<Problem[]>([]);
 
   constructor(private http: Http) { }
@@ -16,6 +16,7 @@ export class DataService {
     this.http.get('/api/v1/problems')
       .toPromise()
       .then((res: Response) => {
+        // res.json will return a Promise which contain a Problem[]
         this.problemSource.next(res.json());
       })
       .catch(this.handleError);

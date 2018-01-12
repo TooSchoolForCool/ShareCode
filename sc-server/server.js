@@ -18,6 +18,8 @@ mongoose.connect('mongodb://sc-user:123456@ds247587.mlab.com:47587/sharecode-db'
 // enable webpage route router
 app.use('/', client_index_router);
 // all static webpage data, reading from ../client-dist/
+// a static web page is that if requested webpage could be found directly,
+// then just use it. Otherwise, go to other router
 app.use(express.static(path.join(__dirname, '../client-dist/')));
 
 // enable api router
