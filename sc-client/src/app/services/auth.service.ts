@@ -10,7 +10,7 @@ export class AuthService {
   public domain = 'sharecode.auth0.com';
   public responseType = 'token id_token';
   public audience = 'https://sharecode.auth0.com/userinfo';
-  public redirectUri = 'http://45.78.60.183:3000/';
+  public redirectUri = 'http://localhost:3000/';
   public scope = 'openid profile';
 
   auth0 = new auth0.WebAuth({
