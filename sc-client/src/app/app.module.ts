@@ -16,6 +16,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 // services
 import { DataService } from './services/data.service';
 import { AuthService } from './services/auth.service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 
@@ -25,7 +26,8 @@ import { AuthService } from './services/auth.service';
     ProblemListComponent,
     ProblemDetailComponent,
     NewProblemComponent,
-    NavbarComponent
+    NavbarComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

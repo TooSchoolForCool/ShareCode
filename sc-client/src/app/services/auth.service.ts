@@ -2,19 +2,27 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
+import { Http, Headers, Response} from '@angular/http';
 
 @Injectable()
 export class AuthService {
+  public clientID = 'ffo29j7yKM850v1LcXyz9EoF61ozrkFE';
+  public domain = 'sharecode.auth0.com';
+  public responseType = 'token id_token';
+  public audience = 'https://sharecode.auth0.com/userinfo';
+  public redirectUri = 'http://localhost:3000/';
+  public scope = 'openid profile';
+
   auth0 = new auth0.WebAuth({
-    clientID: 'ffo29j7yKM850v1LcXyz9EoF61ozrkFE',
-    domain: 'sharecode.auth0.com',
-    responseType: 'token id_token',
-    audience: 'https://sharecode.auth0.com/userinfo',
-    redirectUri: 'http://localhost:3000/',
-    scope: 'openid profile'
+    clientID: this.clientID,
+    domain: this.domain,
+    responseType: this.responseType,
+    audience: this.audience,
+    redirectUri: this.redirectUri,
+    scope: this.scope
   });
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private http: Http) {}
 
   public login(): void {
     // store current url to localStorage for redirection after login
@@ -78,12 +86,33 @@ export class AuthService {
     });
   }
 
+  public resetPassword(email: string): void {
+    const client_id: string = this.clientID;
+    const url = `https://${this.domain}/dbconnections/change_password`;
+    const headers = new Headers({'content-type': 'application/json'});
+
+    const body = {
+      'client_id': client_id,
+      'email': email,
+      'connection': 'Username-Password-Authentication'
+    };
+
+    console.log(url);
+    console.log(body);
+
+    this.http.post(url, body, headers)
+      .toPromise()
+      .then((res: Response) => {
+        console.log(res);
+      })
+      .catch(this.handleError);
+  }
+
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('profile', authResult.profile);
     localStorage.setItem('expires_at', expiresAt);
   }
 
@@ -95,4 +124,8 @@ export class AuthService {
     });
   }
 
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.body || error);
+  }
 }

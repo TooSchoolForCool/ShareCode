@@ -17,7 +17,6 @@ export class NavbarComponent implements OnInit {
     if ( this.auth.isAuthenticated() ) {
       this.auth.getUserProfile()
         .then(profile => {
-          console.log(profile.prototype);
           this.username = profile.nickname;
         })
         .catch(msg => console.log(msg));
