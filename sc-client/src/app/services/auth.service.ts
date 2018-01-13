@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
 
-
 @Injectable()
 export class AuthService {
   auth0 = new auth0.WebAuth({
@@ -20,7 +19,9 @@ export class AuthService {
   public login(): void {
     // store current url to localStorage for redirection after login
     this.saveCurrentLoginUrl()
-      .then(() => this.auth0.authorize());
+      .then(() => {
+        this.auth0.authorize();
+      });
   }
 
   public handleAuthentication(): void {
@@ -30,6 +31,8 @@ export class AuthService {
         this.setSession(authResult);
         // read the login url, and jump back to the same page after login
         this.router.navigate([localStorage.getItem('login_url')]);
+        // reload page to get username
+        window.location.reload();
       } else if (err) {
         this.router.navigate(['/problems']);
         console.log(err);
@@ -54,6 +57,25 @@ export class AuthService {
     // access token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  public getUserProfile(callback): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      const access_token = localStorage.getItem('access_token');
+      // cannot file access_token
+      if ( !access_token ) {
+        reject('Access token must exist to fetch profile!');
+      }
+
+      // fetch user profile
+      this.auth0.client.userInfo(access_token, (err, profile) => {
+        if (profile) {
+          resolve(profile);
+        } else {
+          reject(err);
+        }
+      });
+    });
   }
 
   private setSession(authResult): void {
