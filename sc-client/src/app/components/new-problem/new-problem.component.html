@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="nav_guard.isAdmin()">
   <!-- #formRef="ngForm" is for angualr form, MUST have this -->
   <form #formRef="ngForm" id="new_prob_form">
     <!--'form-group' is a bootstrap class, which will group -->

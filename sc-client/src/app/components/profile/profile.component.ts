@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
   constructor(@Inject('auth0') private auth) { }
 
   ngOnInit() {
-    this.auth.getUserProfile()
+    this.auth.saveUserProfile()
       .then(profile => {
         this.email = profile.name;
         this.username = profile.nickname;

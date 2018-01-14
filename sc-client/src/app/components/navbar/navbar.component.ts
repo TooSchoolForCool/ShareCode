@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   public ngOnInit() {
     if ( this.auth.isAuthenticated() ) {
-      this.auth.getUserProfile()
+      this.auth.saveUserProfile()
         .then(profile => {
           this.username = profile.nickname;
         })

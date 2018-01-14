@@ -20,6 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
+    canActivate: ['navGuard'],
     component: ProfileComponent
   },
   {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
-import { Http, Headers, Response} from '@angular/http';
+import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 
 @Injectable()
 export class AuthService {
@@ -67,23 +67,8 @@ export class AuthService {
     return new Date().getTime() < expiresAt;
   }
 
-  public getUserProfile(callback): Promise<Object> {
-    return new Promise((resolve, reject) => {
-      const access_token = localStorage.getItem('access_token');
-      // cannot file access_token
-      if ( !access_token ) {
-        reject('Access token must exist to fetch profile!');
-      }
-
-      // fetch user profile
-      this.auth0.client.userInfo(access_token, (err, profile) => {
-        if (profile) {
-          resolve(profile);
-        } else {
-          reject(err);
-        }
-      });
-    });
+  public getUserProfile() {
+    return JSON.parse(localStorage.getItem('profile'));
   }
 
   public resetPassword(email: string): void {
@@ -106,6 +91,32 @@ export class AuthService {
         console.log(res);
       })
       .catch(this.handleError);
+  }
+
+  public saveUserProfile(): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      const local_profile = JSON.parse(localStorage.getItem('profile'));
+      if (local_profile) {
+        resolve(local_profile);
+      }
+
+      // localStorage do not have user profile, try to
+      // fetch user profile from remote server
+      const access_token = localStorage.getItem('access_token');
+      // cannot file access_token
+      if ( !access_token ) {
+        reject('[saveUserProfile]: Access token must exist to fetch profile!');
+      }
+      // fetch user profile
+      this.auth0.client.userInfo(access_token, (err, profile) => {
+        if (profile) {
+          localStorage.setItem('profile', JSON.stringify(profile));
+          resolve(profile);
+        } else {
+          reject('[saveUserProfile]: Cannot fetch profile from remote');
+        }
+      });
+    });
   }
 
   private setSession(authResult): void {

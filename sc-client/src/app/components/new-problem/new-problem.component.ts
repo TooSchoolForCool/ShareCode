@@ -13,7 +13,7 @@ export class NewProblemComponent implements OnInit {
 
   public newProblem: Problem = Object.assign({}, DEFAULT_PROBLEM);
 
-  constructor(@Inject('data') private data) { }
+  constructor(@Inject('data') private data, @Inject('navGuard') private nav_guard) { }
 
   ngOnInit() {
   }
