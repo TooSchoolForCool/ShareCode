@@ -18,6 +18,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { DataService } from './services/data.service';
 import { AuthService } from './services/auth.service';
 import { NavGuardService } from './services/nav-guard.service';
+import { EditorComponent } from './components/editor/editor.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { NavGuardService } from './services/nav-guard.service';
     ProblemDetailComponent,
     NewProblemComponent,
     NavbarComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
