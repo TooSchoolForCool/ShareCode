@@ -19,6 +19,7 @@ import { EditorComponent } from './components/editor/editor.component';
 import { DataService } from './services/data.service';
 import { AuthService } from './services/auth.service';
 import { NavGuardService } from './services/nav-guard.service';
+import { CollaborationService } from './services/collaboration.service';
 
 
 @NgModule({
@@ -46,6 +47,9 @@ import { NavGuardService } from './services/nav-guard.service';
   }, {
     provide: 'navGuard',
     useClass: NavGuardService
+  }, {
+    provide: 'collaboration',
+    useClass: CollaborationService
   }],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { EDITOR_DEFAULT_CONTENT, EDITOR_MODE } from './editor.variables';
 
 declare var ace: any;
@@ -14,9 +14,9 @@ export class EditorComponent implements OnInit {
   editor: any;
 
   public languages: string[] = ['C++', 'Java', 'Python'];
-  public selected_language: string = 'C++';
+  public selected_language = 'C++';
 
-  constructor() { }
+  constructor(@Inject('collaboration') private collaboration) { }
 
   ngOnInit() {
     this.editor = ace.edit('editor');
@@ -32,16 +32,17 @@ export class EditorComponent implements OnInit {
 
   // reset code editor
   public resetEditor(): void {
-    let mode = EDITOR_MODE[this.selected_language];
+    const mode = EDITOR_MODE[this.selected_language];
     // reset highlight language mode
     this.editor.getSession().setMode(`ace/mode/${mode}`);
     // reset content according to selected language
     this.editor.setValue(EDITOR_DEFAULT_CONTENT[this.selected_language]);
+    this.collaboration.init();
   }
 
   // upload local source code to remote server
   public submit() {
-    let user_code = this.editor.getValue();
+    const user_code = this.editor.getValue();
     console.log(user_code);
   }
 }
