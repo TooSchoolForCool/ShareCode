@@ -13,12 +13,12 @@ import { ProblemDetailComponent } from './components/problem-detail/problem-deta
 import { NewProblemComponent } from './components/new-problem/new-problem.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 // services
 import { DataService } from './services/data.service';
 import { AuthService } from './services/auth.service';
 import { NavGuardService } from './services/nav-guard.service';
-import { EditorComponent } from './components/editor/editor.component';
 
 
 @NgModule({
