@@ -59,7 +59,7 @@ export class EditorComponent implements OnInit {
     this.editor.lastAppliedChange = null;
 
     this.editor.on('change', (event) => {
-      console.log('editor changes: ' + JSON.stringify(event));
+      // console.log('editor changes: ' + JSON.stringify(event));
 
       // if local content changed, upload to remote
       if (this.editor.lastAppliedChange !== event) {

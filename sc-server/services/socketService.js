@@ -1,14 +1,3 @@
-// module.exports = function(io) {
-//   io.on('connetion', (socket) => {
-//     console.log(socket);
-//
-//     var msg = socket.handshake.query['message'];
-//     console.log(msg);
-//
-//     io.to(socket.id).emit('message', 'hehe from server');
-//   });
-// }
-
 module.exports = function(io) {
   var collaborations = {};
   var socket_id2session_id = {};
@@ -31,7 +20,7 @@ module.exports = function(io) {
 
     socket.on('change', function(update) {
       var session_id = socket_id2session_id[socket.id];
-      console.log('change: ' + session_id + ' ' + update);
+      // console.log('change: ' + session_id + ' ' + update);
 
       // send change to every socket_id according to its associated session_id
       if( session_id in collaborations ) {

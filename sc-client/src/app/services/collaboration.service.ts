@@ -18,7 +18,7 @@ export class CollaborationService {
 
     // listening from server, check if there is changes available from others
     this.collaboration_socket.on('change', (update: string) => {
-      console.log('collaboration: editor changed by others' + update);
+      // console.log('collaboration: editor changed by others' + update);
       // change json string to a json object
       update = JSON.parse(update);
       // save current version to the editor.lastAppliedChange
