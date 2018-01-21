@@ -3,6 +3,12 @@ var app = express();
 
 var path = require('path');
 
+// init server
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var socket_service = require('./services/socketService')(io);
+
+
 // get MongoDB object modeling tool - mongoose
 var mongoose = require('mongoose');
 
@@ -30,8 +36,30 @@ app.use( function(req, res) {
   res.sendFile("index.html", {root: path.join(__dirname, '../client-dist/')});
 });
 
-// define listening port
-app.listen(3000, function() {
-  console.log('Example app listening on port 3000!');
+server.listen(3000, function(){
+  console.log('ShareCode listening on port: 3000');
 });
 
+// var http = require('http');
+// var socket_io = require('socket.io');
+// var io = socket_io();
+// var socket_service = require('./services/socketService')(io);
+
+// start server (this part we do NOT use express-way start server)
+// because we need to support both express and socket_io
+// var server = http.createServer(app);
+// io.attach(server);
+// server.listen(3000);
+//
+// server.on('error', onError);
+// server.on('listening', onListening);
+//
+// function onError(error) {
+//   console.error(error);
+// }
+//
+// function onListening() {
+//   var addr = server.address();
+//   var bind = typeof addr == 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+//   console.log('ShareCode Server Listening on ' + bind);
+// }

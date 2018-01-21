@@ -13,11 +13,13 @@ import { ProblemDetailComponent } from './components/problem-detail/problem-deta
 import { NewProblemComponent } from './components/new-problem/new-problem.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 // services
 import { DataService } from './services/data.service';
 import { AuthService } from './services/auth.service';
 import { NavGuardService } from './services/nav-guard.service';
+import { CollaborationService } from './services/collaboration.service';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { NavGuardService } from './services/nav-guard.service';
     ProblemDetailComponent,
     NewProblemComponent,
     NavbarComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,9 @@ import { NavGuardService } from './services/nav-guard.service';
   }, {
     provide: 'navGuard',
     useClass: NavGuardService
+  }, {
+    provide: 'collaboration',
+    useClass: CollaborationService
   }],
   bootstrap: [AppComponent]
 })
