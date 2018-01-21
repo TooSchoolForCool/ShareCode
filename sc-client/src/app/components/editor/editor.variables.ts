@@ -24,3 +24,9 @@ export const EDITOR_MODE = {
   'C++': 'c_cpp',
   'Python': 'python'
 };
+
+export const SUPPORT_LANGUAGES: string[] = [
+  'C++',
+  'Java',
+  'Python'
+];

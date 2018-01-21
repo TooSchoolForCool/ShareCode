@@ -3,6 +3,7 @@ var app = express();
 
 var path = require('path');
 
+// init server
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var socket_service = require('./services/socketService')(io);

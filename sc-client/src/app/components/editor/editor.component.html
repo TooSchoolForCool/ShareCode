@@ -3,7 +3,7 @@
     <!-- language selection -->
     <select class="form-control pull-left lang-select" name="language" [(ngModel)]="selected_language"
             (change)="resetEditor()">
-      <option *ngFor="let language of languages" [value]="language">
+      <option *ngFor="let language of support_languages" [value]="language">
         {{language}}
       </option>
     </select>
