@@ -58,13 +58,17 @@ export class EditorComponent implements OnInit {
     // when you type in in the editor
     this.editor.lastAppliedChange = null;
 
+    // listening on editor change
     this.editor.on('change', (event) => {
-      // console.log('editor changes: ' + JSON.stringify(event));
-
       // if local content changed, upload to remote
       if (this.editor.lastAppliedChange !== event) {
         this.collaboration.uploadChange(JSON.stringify(event));
       }
+    });
+
+    this.editor.getSession().getSelection().on('changeCursor', () => {
+      const cursor = this.editor.getSession().getSelection().getCursor();
+      this.collaboration.cursorMove(JSON.stringify(cursor));
     });
   }
 

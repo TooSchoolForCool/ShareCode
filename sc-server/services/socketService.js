@@ -20,19 +20,31 @@ module.exports = function(io) {
 
     socket.on('change', function(update) {
       var session_id = socket_id2session_id[socket.id];
-      // console.log('change: ' + session_id + ' ' + update);
 
       // send change to every socket_id according to its associated session_id
+      forwardEvent(session_id, 'change', update);
+    });
+
+    socket.on('cursorMove', function(cursor) {
+      var session_id = socket_id2session_id[socket.id];
+      var cursor_js = JSON.parse(cursor);
+      cursor_js['socket_id'] = socket.id;
+
+      // send change to every socket_id according to its associated session_id
+      forwardEvent(session_id, 'cursorMove', JSON.stringify(cursor_js));
+    });
+
+    function forwardEvent(session_id, event_name, event_content) {
       if( session_id in collaborations ) {
         var participants = collaborations[session_id]['participants'];
         for(var i = 0; i < participants.length; i++) {
           if(socket.id !== participants[i]) {
-            io.to(participants[i]).emit('change', update);
+            io.to(participants[i]).emit(event_name, event_content);
           }
         }
       } else {
         console.error('[ERROR]: Cannot tie socket_id to any session_id in collaborations');
       }
-    })
+    }
   });
 };
