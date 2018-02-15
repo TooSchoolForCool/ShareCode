@@ -70,6 +70,8 @@ export class EditorComponent implements OnInit {
       const cursor = this.editor.getSession().getSelection().getCursor();
       this.collaboration.cursorMove(JSON.stringify(cursor));
     });
+
+    this.collaboration.restoreBuffer();
   }
 
   // reset code editor
